@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'rick_and_morties/rick_morties.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Deeeeemeeee',
+      title: 'Deeeeeneemee',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
