@@ -5,12 +5,8 @@ class RickandMortyView extends RickandMortiesViewModel {
   int length = 1;
   @override
   void initState() {
-    loadDatato();
+    fetchAllData();
     super.initState();
-  }
-
-  Future loadDatato() async {
-    await fetchAllData();
   }
 
   @override
@@ -20,32 +16,41 @@ class RickandMortyView extends RickandMortiesViewModel {
         title: const Center(child: Text("Json Practise")),
         backgroundColor: Colors.blueAccent,
       ),
-      body: (models.info == null)
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: models.results?[length - 1].id,
-              itemBuilder: (context, index) => Card(
-                child: ListTile(
-                  leading: Text(models.results?[index].id.toString() ?? ''),
-                  trailing: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          models.results?[index].image.toString() ?? '')),
-                  title: Text(models.results?[index].name.toString() ?? ''),
-                  subtitle: Text(models.results![index].gender.toString()),
-                ),
-              ),
-            ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: (() {
-            if (length < 20) {
-              length++;
-            } else {
-              length = 20;
-            }
+      body: (models.info == null) ? progressindicator() : buildlistview(),
+      floatingActionButton: buildbutton(),
+    );
+  }
 
-            setState(() {});
-          }),
-          child: const Icon(Icons.add)),
+  Widget progressindicator() =>
+      const Center(child: CircularProgressIndicator());
+
+  FloatingActionButton buildbutton() {
+    return FloatingActionButton(
+        onPressed: (() {
+          if (length < 20) {
+            length++;
+          } else {
+            length = 20;
+          }
+
+          setState(() {});
+        }),
+        child: const Icon(Icons.add));
+  }
+
+  ListView buildlistview() {
+    return ListView.builder(
+      itemCount: models.results?[length - 1].id,
+      itemBuilder: (context, index) => Card(
+        child: ListTile(
+          leading: Text(models.results?[index].id.toString() ?? ''),
+          trailing: CircleAvatar(
+              backgroundImage:
+                  NetworkImage(models.results?[index].image.toString() ?? '')),
+          title: Text(models.results?[index].name.toString() ?? ''),
+          subtitle: Text(models.results![index].gender.toString()),
+        ),
+      ),
     );
   }
 }
